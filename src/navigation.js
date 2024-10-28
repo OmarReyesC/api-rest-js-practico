@@ -1,6 +1,6 @@
 searchFormBtn.addEventListener('click', () => location.hash = `#search=${searchFormInput.value}`);
 trendingBtn.addEventListener('click', () => location.hash = '#trends');
-arrowBtn.addEventListener('click', () => location.hash = '#home');
+arrowBtn.addEventListener('click', () => history.back());
 
 window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
@@ -39,6 +39,9 @@ function trendsPage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+
+    headerCategoryTitle.innerText = 'Trending'
+    getTrendingMovies();
 };
 function searchPage() {
     console.log('SEARCH');
