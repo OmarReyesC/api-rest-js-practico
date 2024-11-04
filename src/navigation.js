@@ -1,12 +1,21 @@
+let page = 1;
+let infiniteScroll;
+
 searchFormBtn.addEventListener('click', () => location.hash = `#search=${searchFormInput.value}`);
 trendingBtn.addEventListener('click', () => location.hash = '#trends');
 arrowBtn.addEventListener('click', () => history.back());
 
 window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
+window.addEventListener('scroll', infiniteScroll, false);
 
 function navigator() {
     console.log({ location });
+
+    if (infiniteScroll) {       //limpiando infiniteScroll porque estamos cambiando a una nueva página
+        window.removeEventListener('scroll', infiniteScroll, { passive: false });
+        infiniteScroll = undefined;
+    }
 
     if (location.hash.startsWith('#trends')) {
         trendsPage();
@@ -22,6 +31,10 @@ function navigator() {
 
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+
+    if (infiniteScroll) { // Si la página a la que nos movimos agregó un infiniteScroll, vamos ahora a crear el Event Listener
+        window.addEventListener('scroll', infiniteScroll, { passive: false });
+    }
 };
 
 function trendsPage() {
@@ -40,8 +53,10 @@ function trendsPage() {
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
 
-    headerCategoryTitle.innerText = 'Trending'
+    headerCategoryTitle.innerText = 'Trending';
     getTrendingMovies();
+
+    infiniteScroll = getPaginatedTrendingMovies;
 };
 function searchPage() {
     console.log('SEARCH');
