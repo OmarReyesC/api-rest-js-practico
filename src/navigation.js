@@ -77,6 +77,8 @@ function searchPage() {
 
     const [_, query] = location.hash.split('=') // ['#search', 'key word']
     getMoviesBySearch(query);
+
+    infiniteScroll = getPaginatedMoviesBySearch(query);
 };
 function movieDetailsPage() {
     console.log('MOVIE');
@@ -120,6 +122,8 @@ function categoriesPage() {
     headerCategoryTitle.innerText = categoryName;
 
     getMoviesByCategory(categoryId);
+
+    infiniteScroll = getPaginatedMoviesByCategory(categoryId);
 };
 
 function homePage() {
